@@ -77,6 +77,7 @@ class _ListTextPageState extends State<ListTextPage> {
                             builder: (context) => AlertDialog(
                               title: const Text('Editar'),
                               content: TextFormField(
+                                autofocus: true,
                                 initialValue: store.textList[index].content,
                                 onChanged: (s) => newContent = s,
                               ),
