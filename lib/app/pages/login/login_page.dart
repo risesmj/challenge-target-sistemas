@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextFormField(
             validator: validator,
+            textInputAction: TextInputAction.next,
             maxLength: 20,
             decoration: InputDecoration(
               filled: true,
