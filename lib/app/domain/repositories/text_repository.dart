@@ -26,6 +26,15 @@ class TextRepository {
     return true;
   }
 
+  Future<bool> update({
+    required String id,
+    required String newContent,
+  }) async {
+    final db = await SharedPreferences.getInstance();
+    db.setString(id, newContent);
+    return true;
+  }
+
   Future<bool> delete({required String id}) async {
     final db = await SharedPreferences.getInstance();
     db.remove(id);

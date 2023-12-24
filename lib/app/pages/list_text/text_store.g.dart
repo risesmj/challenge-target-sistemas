@@ -40,6 +40,14 @@ mixin _$TextStore on _TextStore, Store {
     return _$removeAsyncAction.run(() => super.remove(textEntity));
   }
 
+  late final _$updateAsyncAction =
+      AsyncAction('_TextStore.update', context: context);
+
+  @override
+  Future<void> update(int index, String newContent) {
+    return _$updateAsyncAction.run(() => super.update(index, newContent));
+  }
+
   @override
   String toString() {
     return '''

@@ -35,6 +35,12 @@ abstract class _TextStore with Store {
     textList.remove(textEntity);
   }
 
+  @action
+  Future<void> update(int index, String newContent) async {
+    await _repository.update(id: textList[index].id, newContent: newContent);
+    textList[index] = textList[index].copyWith(content: newContent);
+  }
+
   Future<void> _loadData() async {
     final data = await _repository.fetchAll();
     textList.clear();

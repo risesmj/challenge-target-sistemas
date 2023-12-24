@@ -15,6 +15,8 @@ class _ListTextPageState extends State<ListTextPage> {
   final _focusField = FocusNode();
   late final TextEditingController _textEditingController;
 
+  bool isEditing = false;
+
   @override
   void initState() {
     super.initState();
@@ -23,10 +25,12 @@ class _ListTextPageState extends State<ListTextPage> {
     _textEditingController = TextEditingController();
 
     _focusField.addListener(() {
-      if (!_focusField.hasFocus) {
+      if (!_focusField.hasFocus && !isEditing) {
         _focusField.requestFocus();
       }
     });
+
+    _focusField.requestFocus();
   }
 
   @override
@@ -65,7 +69,47 @@ class _ListTextPageState extends State<ListTextPage> {
                     children: [
                       IconButton(
                         iconSize: 35,
-                        onPressed: () {},
+                        onPressed: () async {
+                          String newContent = '';
+                          isEditing = true;
+                          await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Editar'),
+                              content: TextFormField(
+                                initialValue: store.textList[index].content,
+                                onChanged: (s) => newContent = s,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Cancelar',
+                                    style: TextStyle(
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    store.update(index, newContent);
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    'Atualizar',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                          isEditing = false;
+                        },
                         icon: const Icon(
                           Icons.edit,
                           color: Colors.black,
